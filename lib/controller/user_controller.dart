@@ -13,26 +13,7 @@ class UserController extends GetxController {
   UserModel? currentUser;
   var userCtrl = TextEditingController();
   var passCtrl = TextEditingController();
-
-  bool get isLoggedIn => getLoginStatus();
-
-  // GET LOGIN STATUS
-  bool getLoginStatus() {
-    final box = GetStorage();
-    try {
-      final result = box.read('isLoggedIn') ?? false;
-      log("Login status set to: $isLoggedIn");
-      if (result) {
-        getCurrentUser();
-      } else {
-        currentUser = null;
-      }
-      return result;
-    } catch (e) {
-      log("Failed to get login status!: $e");
-    }
-    return false;
-  }
+  RxBool isLoading = false.obs;
 
   // SET LOGIN STATUS
   Future<void> setLogInStatus(bool value) async {
@@ -52,21 +33,25 @@ class UserController extends GetxController {
       final result = box.read('currentUser');
       final data = jsonDecode(result);
       currentUser = UserModel.fromJson(data);
+      log("Got current user: ${currentUser!.username}");
     } catch (e) {
-      log("Failed to fetch current user");
+      log("Failed to fetch current user: $e");
     }
   }
 
   // SET CURRENT USER
-  void setCurrentUser(int id) {
+  Future<void> setCurrentUser(int id) async {
     try {
       final box = GetStorage();
       final user =
-          ApiService.service.fetchUserApi('https://dummyjson.com/users/$id');
-      log(user as String);
+          await ApiService.service.fetchUserApi('https://dummyjson.com/users/$id');
+      log(user);
       box.write('currentUser', user);
     } catch (e) {
-      log("Failed to set current user");
+      log("Failed to set current user $e");
+    }
+    if(savedUserList.isEmpty){
+      ApiService.service.fetchUserApi(null);
     }
     for(UserModel e in savedUserList){
       if(e.id == id){
@@ -82,8 +67,8 @@ class UserController extends GetxController {
   }
 
   // Set controller
-  void setControllers(String email, password) {
-    userCtrl.text = email;
+  void setControllers(String userName, password) {
+    userCtrl.text = userName;
     passCtrl.text = password;
   }
 

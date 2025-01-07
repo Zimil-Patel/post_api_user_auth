@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post_api_user_auth/controller/user_controller.dart';
@@ -11,6 +13,8 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("Building auth");
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),

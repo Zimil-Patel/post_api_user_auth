@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:post_api_user_auth/views/auth/auth_screen.dart';
 import 'package:post_api_user_auth/views/auth/saved_user_screen.dart';
+import 'package:post_api_user_auth/views/home/home_screen.dart';
+
 // Placement Task Day - 2
 // Users API: https://dummyjson.com/users
 // Auth API: https://dummyjson.com/auth/login
@@ -14,7 +18,6 @@ import 'package:post_api_user_auth/views/auth/saved_user_screen.dart';
 // - Set a logout button which navigates the user to the login page again.
 // - Also store all user details(all) that are logged in successfully in permanent storage without using SQLite & Firebase.
 // - Create attractive UI & Proper directory structure
-
 
 Future<void> main() async {
   await GetStorage.init();
@@ -32,8 +35,10 @@ class UserAuthApi extends StatelessWidget {
       getPages: [
         GetPage(name: '/auth', page: () => const AuthScreen()),
         GetPage(name: '/users', page: () => const SavedUserScreen()),
+        GetPage(name: '/home', page: () => const HomeScreen()),
       ],
-      home: const AuthScreen(),
+      initialRoute:
+          GetStorage().read('isLoggedIn') ?? false ? '/home' : '/auth',
     );
   }
 }

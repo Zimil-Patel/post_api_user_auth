@@ -41,13 +41,13 @@ class _UsersListView extends StatelessWidget {
       itemBuilder: (context, index) =>
           ListTile(
             onTap: () {
-              final email = userController.savedUserList[index].email;
+              final userName = userController.savedUserList[index].username;
               final password = userController.savedUserList[index].password;
-              userController.setControllers(email, password);
+              userController.setControllers(userName, password);
               Get.back();
             },
             leading: const Icon(Icons.person),
-            title:  Text(userController.savedUserList[index].email),
+            title:  Text(userController.savedUserList[index].username),
             subtitle:  Text(userController.savedUserList[index].password),
             trailing: const Icon(Icons.arrow_right_rounded),
           ),
