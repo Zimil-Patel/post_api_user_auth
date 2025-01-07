@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post_api_user_auth/controller/user_controller.dart';
+
+import 'components/login_button.dart';
 
 UserController userController = Get.put(UserController());
 
@@ -30,9 +31,9 @@ class AuthScreen extends StatelessWidget {
             children: [
               // EMAIL
               _customInputField(
-                  controller: userController.emailCtrl,
+                  controller: userController.userCtrl,
                   hintText: 'Enter your email',
-                  icon: Icons.email),
+                  icon: Icons.person),
 
               const SizedBox(height: 12),
 
@@ -42,41 +43,17 @@ class AuthScreen extends StatelessWidget {
                   hintText: 'Enter your password',
                   icon: Icons.lock_rounded),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: 20),
 
               // LOGIN IN BUTTON
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CupertinoButton(
-                    onPressed: () {},
-                    padding: EdgeInsets.zero,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 14, horizontal: 40),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.grey,
-                      ),
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              loginButton(),
             ],
           ),
         ),
       ),
     );
   }
+
 }
 
 TextField _customInputField(
@@ -91,6 +68,11 @@ TextField _customInputField(
     decoration: InputDecoration(
       hintText: hintText,
       hintStyle: const TextStyle(color: Colors.grey),
+      suffixIcon: IconButton(
+          onPressed: (){
+            controller.clear();
+          },
+          icon: const Icon(Icons.highlight_remove_rounded)),
       prefixIcon: Icon(icon),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
