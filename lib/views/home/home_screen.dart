@@ -26,6 +26,18 @@ class HomeScreen extends StatelessWidget {
           }, icon: const Icon(Icons.login_rounded))
         ],
       ),
+
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                CircleAvatar(radius: 20,)
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
