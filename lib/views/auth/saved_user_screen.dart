@@ -40,6 +40,7 @@ class _UsersListView extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) =>
           ListTile(
+            tileColor: Colors.white12,
             onTap: () {
               final userName = userController.savedUserList[index].username;
               final password = userController.savedUserList[index].password;

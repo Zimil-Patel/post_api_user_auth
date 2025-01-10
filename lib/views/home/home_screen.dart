@@ -43,13 +43,13 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   // IMAGE
                   CircleAvatar(
-                    radius: 54,
+                    radius: 20,
                     backgroundImage: NetworkImage(user.image),
                   ),
                   const SizedBox(
                     width: 12,
                   ),
-                  Flexible(
+                  Expanded(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                         Text(
                           "${user.firstName} ${user.lastName}",
                           style: const TextStyle(
-                            fontSize: 26,
+                            fontSize: 18,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                         Text(
                           user.email,
                           style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: Colors.white54,
                           ),
@@ -74,45 +74,47 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+
+                  const Icon(Icons.arrow_forward_ios_rounded, color: Colors.grey,),
                 ],
               ),
             ),
 
-            // Address
-            _smartContainer(
-              Row(
-                children: [
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          "Address",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white54,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 12,),
-                        Text(
-                          "${user.address.address}, ${user.address.city}, ${user.address.state}",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        _buildRichText(label: 'state code', value: user.address.stateCode),
-                        _buildRichText(label: 'postal code', value: user.address.postalCode),
-                        _buildRichText(label: 'country', value: user.address.country),
-                        _buildRichText(label: 'coordinates', value: "lat: ${user.address.coordinates.lat}, lng: ${user.address.coordinates.lng}"),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // // Address
+            // _smartContainer(
+            //   Row(
+            //     children: [
+            //       Flexible(
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           mainAxisSize: MainAxisSize.min,
+            //           children: [
+            //             const Text(
+            //               "Address",
+            //               style: TextStyle(
+            //                 fontSize: 20,
+            //                 color: Colors.white54,
+            //                 fontWeight: FontWeight.w600,
+            //               ),
+            //             ),
+            //             const SizedBox(height: 12,),
+            //             Text(
+            //               "${user.address.address}, ${user.address.city}, ${user.address.state}",
+            //               style: const TextStyle(
+            //                 fontSize: 18,
+            //                 fontWeight: FontWeight.w600,
+            //               ),
+            //             ),
+            //             _buildRichText(label: 'state code', value: user.address.stateCode),
+            //             _buildRichText(label: 'postal code', value: user.address.postalCode),
+            //             _buildRichText(label: 'country', value: user.address.country),
+            //             _buildRichText(label: 'coordinates', value: "lat: ${user.address.coordinates.lat}, lng: ${user.address.coordinates.lng}"),
+            //           ],
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),

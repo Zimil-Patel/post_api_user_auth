@@ -10,6 +10,7 @@ import 'package:post_api_user_auth/services/api_service.dart';
 class UserController extends GetxController {
   // List of saved user from api
   List<UserModel> savedUserList = [];
+  RxList<UserModel> loggedInUserList = <UserModel>[].obs;
   UserModel? currentUser;
   var userCtrl = TextEditingController();
   var passCtrl = TextEditingController();
@@ -46,7 +47,26 @@ class UserController extends GetxController {
       final user =
           await ApiService.service.fetchUserApi('https://dummyjson.com/users/$id');
       log(user);
-      box.write('currentUser', user);
+      var verifiedUserList = box.read('verifiedUserList') ?? [];
+      log("Got List: $verifiedUserList");
+      // save list to rxList
+      for(var i in verifiedUserList){
+
+      }
+
+      // check if given user is already logged in before
+      bool isContain = false;
+      for(var i in verifiedUserList){
+        if (id == i['id']){
+          isContain = true;
+          break;
+        }
+      }
+
+      // if not contain then add this user to logged in list
+      if(!isContain){
+
+      }
     } catch (e) {
       log("Failed to set current user $e");
     }
