@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:post_api_user_auth/views/auth/auth_screen.dart';
 
 class ApiService{
@@ -47,6 +46,7 @@ class ApiService{
         log("ID: ${data['id']}");
         await userController.setCurrentUser(data['id']);
         await userController.setLogInStatus(true);
+        userController.saveLoggedInUser(data['id']);
         return true;
       } else if(response.statusCode == 400){
         final data = jsonDecode(response.body);

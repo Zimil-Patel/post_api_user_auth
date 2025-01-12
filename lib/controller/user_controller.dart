@@ -10,11 +10,19 @@ import 'package:post_api_user_auth/services/api_service.dart';
 class UserController extends GetxController {
   // List of saved user from api
   List<UserModel> savedUserList = [];
-  RxList<UserModel> loggedInUserList = <UserModel>[].obs;
+  List loggedInUserList = [];
+  RxList<UserModel> userList = <UserModel>[].obs;
   UserModel? currentUser;
   var userCtrl = TextEditingController();
   var passCtrl = TextEditingController();
   RxBool isLoading = false.obs;
+
+  @override
+  void onInit() {
+    getLoggedInUser();
+    super.onInit();
+  }
+
 
   // SET LOGIN STATUS
   Future<void> setLogInStatus(bool value) async {
@@ -44,29 +52,8 @@ class UserController extends GetxController {
   Future<void> setCurrentUser(int id) async {
     try {
       final box = GetStorage();
-      final user =
-          await ApiService.service.fetchUserApi('https://dummyjson.com/users/$id');
-      log(user);
-      var verifiedUserList = box.read('verifiedUserList') ?? [];
-      log("Got List: $verifiedUserList");
-      // save list to rxList
-      for(var i in verifiedUserList){
-
-      }
-
-      // check if given user is already logged in before
-      bool isContain = false;
-      for(var i in verifiedUserList){
-        if (id == i['id']){
-          isContain = true;
-          break;
-        }
-      }
-
-      // if not contain then add this user to logged in list
-      if(!isContain){
-
-      }
+      final userEndPoint = 'https://dummyjson.com/users/$id';
+      box.write('currentUser', await ApiService.service.fetchUserApi(userEndPoint));
     } catch (e) {
       log("Failed to set current user $e");
     }
@@ -78,6 +65,34 @@ class UserController extends GetxController {
         currentUser = e;
       }
     }
+  }
+
+  // SAVE USER
+  Future<void> saveLoggedInUser(int id) async {
+    try{
+    final userEndPoint = 'https://dummyjson.com/users/$id';
+    final user = await ApiService.service.fetchUserApi(userEndPoint);
+    bool exist = userList.any((element) => element.id == id);
+    if(!exist){
+      userList.add(UserModel.fromJson(jsonDecode(user)));
+      loggedInUserList.add(user);
+      final box = GetStorage();
+      box.write('loggedInUserList', loggedInUserList);
+    } else {
+      log("Already exists");
+    }
+
+    } catch (e) {
+      log("Failed to save user");
+    }
+  }
+
+  // GET LOGGED USER LIST
+  void getLoggedInUser(){
+    final box = GetStorage();
+    loggedInUserList = box.read('loggedInUserList') ?? [];
+    userList.value = loggedInUserList.map((e) => UserModel.fromJson(jsonDecode(e))).toList();
+    log("Got loggedUser List: $userList");
   }
 
   // Clear controller

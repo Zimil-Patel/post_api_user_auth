@@ -39,18 +39,24 @@ class _UsersListView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) =>
-          ListTile(
-            tileColor: Colors.white12,
-            onTap: () {
-              final userName = userController.savedUserList[index].username;
-              final password = userController.savedUserList[index].password;
-              userController.setControllers(userName, password);
-              Get.back();
-            },
-            leading: const Icon(Icons.person),
-            title:  Text(userController.savedUserList[index].username),
-            subtitle:  Text(userController.savedUserList[index].password),
-            trailing: const Icon(Icons.arrow_right_rounded),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 6),
+            decoration: BoxDecoration(
+              color: Colors.white12,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: ListTile(
+              onTap: () {
+                final userName = userController.savedUserList[index].username;
+                final password = userController.savedUserList[index].password;
+                userController.setControllers(userName, password);
+                Get.back();
+              },
+              leading: const Icon(Icons.person),
+              title:  Text(userController.savedUserList[index].username),
+              subtitle:  Text(userController.savedUserList[index].password),
+              trailing: const Icon(Icons.arrow_right_rounded),
+            ),
           ),
       separatorBuilder: (context, index) => const SizedBox(height: 10),
       itemCount: 10,
